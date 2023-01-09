@@ -5,6 +5,7 @@ import logo from "../../assets/images/eco-logo.png";
 import userIcon from "../../assets/images/user-icon.png";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useRef } from "react";
 
 const nav__links = [
   {
@@ -22,6 +23,10 @@ const nav__links = [
 ];
 
 const Header = () => {
+  const menuRef = useRef(null);
+
+  const menuToggle = () => menuRef?.current?.classList?.toggle("active__menu");
+
   return (
     <header className="header">
       <Container>
@@ -34,7 +39,7 @@ const Header = () => {
               </div>
             </div>
 
-            <div className="navgation">
+            <div className="navgation" ref={menuRef} onClick={menuToggle}>
               <ul className="menu">
                 {nav__links.map((item, index) => {
                   return (
@@ -62,13 +67,17 @@ const Header = () => {
                 <span className="badge">1</span>
               </span>
               <span>
-                <motion.img whileTap={{scale: 1.2}} src={userIcon} alt="User Icon" />
+                <motion.img
+                  whileTap={{ scale: 1.2 }}
+                  src={userIcon}
+                  alt="User Icon"
+                />
               </span>
-            </div>
-            <div className="mobile__menu">
-              <span>
-                <i className="ri-menu-line"></i>
-              </span>
+              <div className="mobile__menu">
+                <span onClick={menuToggle}>
+                  <i className="ri-menu-line"></i>
+                </span>
+              </div>
             </div>
           </div>
         </Row>

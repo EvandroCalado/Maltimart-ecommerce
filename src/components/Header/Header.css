@@ -2,6 +2,10 @@
   width: 100%;
   height: 7rem;
   line-height: 7rem;
+  position: fixed;
+  z-index: 999;
+  box-shadow: 0.3rem 0.3rem 0.8rem -0.3rem #ddd;
+  background-color: #fff;
 }
 
 .nav__wrapper {
@@ -89,4 +93,66 @@
 
 .nav__active {
   font-weight: 700 !important;
+}
+
+.sticky__header {
+  width: 100%;
+  height: 7rem;
+  line-height: 7rem;
+  position: fixed;
+  z-index: 999;
+  box-shadow: 0.3rem 0.3rem 0.8rem -0.3rem #ddd;
+  background-color: #fff;
+}
+
+@media only screen and (max-width: 768px) {
+  .navgation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+  }
+
+  .menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25rem;
+    height: 100%;
+    background-color: #fff;
+    z-index: 1010;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .active__menu {
+    display: block;
+  }
+
+  .mobile__menu {
+    display: block;
+  }
+
+  .mobile__menu span i {
+    font-size: 2rem;
+  }
+
+  .logo img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+
+  .header {
+    height: 6rem;
+    line-height: 6rem;
+  }
 }

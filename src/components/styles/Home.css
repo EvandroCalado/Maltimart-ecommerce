@@ -36,3 +36,77 @@
 .hero__content {
   padding-top: 4.5rem;
 }
+
+.timer__count {
+  background: var(--primary-color);
+  height: 30rem;
+}
+
+.timer__count img {
+  width: 40%;
+  object-fit: contain;
+}
+
+.store__btn {
+  background: #fff;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.store__btn a:hover {
+  color: var(--primary-color);
+}
+
+@media only screen and (max-width: 1024px) {
+  .hero__content h2 {
+    font-size: 2.5rem;
+  }
+
+  .section__title {
+    font-size: 2rem;
+  }
+
+  .timer__count {
+    padding: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .timer__count img {
+    width: 60%;
+    object-fit: contain;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .hero__content h2 {
+    font-size: 2rem;
+  }
+
+  .hero__content p {
+    font-size: 1.4rem;
+  }
+
+  .buy__btn {
+    font-size: 1.4rem;
+  }
+
+}
+
+@media only screen and (max-width: 576px) {
+  .hero__content {
+    padding-top: 0;
+    margin-bottom: 4rem;
+  }
+
+  .timer__count {
+    flex-direction: column;
+  }
+
+  .timer__count img {
+    width: 40%;
+    object-fit: contain;
+  }
+}
