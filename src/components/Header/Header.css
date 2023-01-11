@@ -85,9 +85,36 @@
   z-index: 10;
 }
 
-.nav__icons span img {
-  width: 3rem;
-  height: 3rem;
+.nav__icons .profile {
+  position: relative;
+  z-index: 9;
+}
+
+.nav__icons .profile .profile__actions {
+  position: absolute;
+  top: 98%;
+  right: 0;
+  width: 15rem;
+  z-index: 10;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  line-height: 3rem;
+  background-color: var(--card-bg-01);
+  display: none;
+  cursor: pointer;
+}
+
+.show__profileActions {
+  display: flex !important;
+}
+
+.nav__icons .profile img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
   cursor: pointer;
 }
 
