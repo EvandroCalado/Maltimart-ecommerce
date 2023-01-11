@@ -49,7 +49,8 @@ const ProductDetails = () => {
       rating,
     };
 
-    console.log(reviewObj);
+    console.log(reviewObj)
+
     toast.success("Review submitted");
   };
 

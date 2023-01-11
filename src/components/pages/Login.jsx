@@ -7,7 +7,6 @@ import "../styles/Login.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase.config";
 import { toast } from "react-toastify";
-// import { async } from "@firebase/util";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,15 +19,13 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
+      await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      const user = userCredential.user;
       toast.success("Successfully logger in");
       navigate("/checkout");
-
       setLoading(false);
     } catch (error) {
       setLoading(false);
