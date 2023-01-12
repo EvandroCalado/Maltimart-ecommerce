@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Cart.css";
+import "../../styles/Cart.css";
 import Helmet from "../Helmet/Helmet";
 import CommonSection from "../Ui/CommonSection";
 import { Col, Container, Row } from "reactstrap";

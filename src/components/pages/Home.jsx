@@ -2,16 +2,17 @@ import React from "react";
 import Helmet from "../Helmet/Helmet";
 import { Col, Container, Row } from "reactstrap";
 import heroImg from "../../assets/images/hero-img.png";
-import "../styles/Home.css";
+import "../../styles/Home.css";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Services from "../services/Services";
+import Services from "../../services/Services";
 import ProductsList from "../Ui/ProductsList";
-import products from "../../assets/data/products";
 import { useState } from "react";
 import { useEffect } from "react";
 import counterImg from "../../assets/images/counter-timer-img.png";
 import Clock from "../Ui/Clock";
+import useGetData from "../../custom/useGetData";
+import Spinning from "../Ui/Spinning";
 
 const Home = () => {
   const [trendingProducts, setTrendingProducts] = useState([]);
@@ -19,6 +20,8 @@ const Home = () => {
   const [mobileProducts, setMobileProducts] = useState([]);
   const [wirelessProducts, setWirelessProducts] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
+
+  const { data: products, loading } = useGetData("products");
 
   useEffect(() => {
     const filteredTrendingProducts = products.filter(
@@ -46,7 +49,7 @@ const Home = () => {
     setMobileProducts(filteredMobileProducts);
     setWirelessProducts(filteredWirelessProducts);
     setPopularProducts(filteredPopularProducts);
-  }, []);
+  }, [products]);
 
   const year = new Date().getFullYear();
 
@@ -85,7 +88,13 @@ const Home = () => {
             <Col lg="12" className="text-center">
               <h2 className="section__title">Trending Products</h2>
             </Col>
-            <ProductsList data={trendingProducts} />
+            {loading ? (
+              <div className=" my-5 w-100 d-flex align-items-center justify-content-center">
+                <Spinning width={100} height={100} />
+              </div>
+            ) : (
+              <ProductsList data={trendingProducts} />
+            )}
           </Row>
         </Container>
       </section>
@@ -95,7 +104,13 @@ const Home = () => {
             <Col lg="12" className="text-center">
               <h2 className="section__title">Best Sales</h2>
             </Col>
-            <ProductsList data={bestSalesProducts} />
+            {loading ? (
+              <div className=" my-5 w-100 d-flex align-items-center justify-content-center">
+                <Spinning width={100} height={100} />
+              </div>
+            ) : (
+              <ProductsList data={bestSalesProducts} />
+            )}
           </Row>
         </Container>
       </section>
@@ -129,8 +144,20 @@ const Home = () => {
             <Col lg="12" className="text-center md-5">
               <h2 className="section__title">New Arriavals</h2>
             </Col>
-            <ProductsList data={mobileProducts} />
-            <ProductsList data={wirelessProducts} />
+            {loading ? (
+              <div className=" my-5 w-100 d-flex align-items-center justify-content-center">
+                <Spinning width={100} height={100} />
+              </div>
+            ) : (
+              <ProductsList data={mobileProducts} />
+            )}
+            {loading ? (
+              <div className=" my-5 w-100 d-flex align-items-center justify-content-center">
+                <Spinning width={100} height={100} />
+              </div>
+            ) : (
+              <ProductsList data={wirelessProducts} />
+            )}
           </Row>
         </Container>
       </section>
@@ -141,7 +168,13 @@ const Home = () => {
             <Col lg="12" className="text-center mb-5">
               <h2 className="section__title">Popular in Category</h2>
             </Col>
-            <ProductsList data={popularProducts} />
+            {loading ? (
+              <div className=" my-5 w-100 d-flex align-items-center justify-content-center">
+                <Spinning width={100} height={100} />
+              </div>
+            ) : (
+              <ProductsList data={popularProducts} />
+            )}
           </Row>
         </Container>
       </section>

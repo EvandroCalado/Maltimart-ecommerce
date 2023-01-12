@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
 import Helmet from "../Helmet/Helmet";
 import CommonSection from "../Ui/CommonSection";
-import "../styles/Checkout.css";
+import "../../styles/Checkout.css";
 import { useSelector } from "react-redux";
 
 const Checkout = () => {

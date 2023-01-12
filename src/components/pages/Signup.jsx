@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
 import Helmet from "../Helmet/Helmet";
-import "../styles/Login.css";
+import "../../styles/Login.css";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { setDoc, doc } from "firebase/firestore";

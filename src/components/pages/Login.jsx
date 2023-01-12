@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
 import Helmet from "../Helmet/Helmet";
-import "../styles/Login.css";
+import "../../styles/Login.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase.config";
 import { toast } from "react-toastify";

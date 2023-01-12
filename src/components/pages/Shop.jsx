@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Container, Row } from "reactstrap";
 import Helmet from "../Helmet/Helmet";
 import CommonSection from "../Ui/CommonSection";
-import "../styles/Shop.css";
+import "../../styles/Shop.css";
 import { useState } from "react";
 import productsData from "../../assets/data/products";
 import ProductsList from "../Ui/ProductsList";
