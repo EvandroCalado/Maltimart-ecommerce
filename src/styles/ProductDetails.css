@@ -42,7 +42,7 @@
 }
 
 .review__wrapper ul li p {
-  margin-top: 1rem;
+  margin: .5rem 0 2rem 0;
 }
 
 .review__form {
@@ -84,6 +84,11 @@
   font-size: 2rem;
   font-weight: 600;
   margin-top: 3rem;
+}
+
+.ri-heart-fill {
+  color: var(--primary-color);
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {

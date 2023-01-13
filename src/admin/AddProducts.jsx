@@ -30,7 +30,7 @@ const AddProducts = () => {
       uploadBytesResumable(storageRef, enterProductImg).then(() => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
           await addDoc(docRef, {
-            productName: enterTitle,
+            title: enterTitle,
             shortDesc: enterShotDescription,
             description: enterDescription,
             category: enterCategory,

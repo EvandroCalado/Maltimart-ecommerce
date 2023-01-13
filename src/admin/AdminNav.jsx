@@ -1,6 +1,6 @@
 import { Container, Row } from "reactstrap";
 import useAuth from "../custom/useAuth";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/AdminNav.css";
 
 const admin__nav = [
@@ -16,8 +16,8 @@ const admin__nav = [
   },
   {
     id: 3,
-    display: "Orders",
-    path: "/dashboard/orders",
+    display: "Add-Products",
+    path: "/dashboard/add-product",
   },
   {
     id: 4,
@@ -28,6 +28,11 @@ const admin__nav = [
 
 const AdminNav = () => {
   const { currentUser } = useAuth();
+  const navigate = useNavigate()
+
+const handleLogoClick = () => {
+  navigate("/home")
+}
 
   return (
     <>
@@ -35,7 +40,7 @@ const AdminNav = () => {
         <div className="admin__nav-top">
           <Container>
             <div className="admin__nav-wrapper-top">
-              <div className="logo">
+              <div className="logo" onClick={handleLogoClick}>
                 <h2>Multimart</h2>
               </div>
 

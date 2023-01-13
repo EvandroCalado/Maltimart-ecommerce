@@ -4,15 +4,21 @@ import Helmet from "../Helmet/Helmet";
 import CommonSection from "../Ui/CommonSection";
 import "../../styles/Shop.css";
 import { useState } from "react";
-import productsData from "../../assets/data/products";
 import ProductsList from "../Ui/ProductsList";
+import useGetData from "../../custom/useGetData";
+import Spinning from "../Ui/Spinning";
+import { useEffect } from "react";
 
 const Shop = () => {
-  const [products, setProducts] = useState(productsData);
+  const { data: productsData } = useGetData("products");
+  const [products, setProducts] = useState();
+
+  useEffect(() => {
+    setProducts(productsData);
+  }, [productsData]);
 
   const heandleFilter = (e) => {
     const filterValue = e.target.value;
-    console.log(products);
 
     if (filterValue === "sofa") {
       const filteredProducts = productsData.filter(
@@ -63,9 +69,7 @@ const Shop = () => {
     const searchValue = e.target.value;
 
     const searchProducts = productsData.filter((item) =>
-      item.productName
-        .toLocaleLowerCase()
-        .includes(searchValue.toLocaleLowerCase())
+      item.title.toLocaleLowerCase().includes(searchValue?.toLocaleLowerCase())
     );
 
     setProducts(searchProducts);
@@ -116,8 +120,10 @@ const Shop = () => {
       <section className="pt-0">
         <Container>
           <Row>
-            {products.length === 0 ? (
-              <h1 className="text-center fs-1">No products are found !</h1>
+            {productsData.length === 0 ? (
+              <div className="my-5 w-100 d-flex align-items-center justify-content-center">
+                <Spinning />
+              </div>
             ) : (
               <ProductsList data={products} />
             )}

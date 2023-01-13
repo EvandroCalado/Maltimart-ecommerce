@@ -13,7 +13,7 @@ import { cartActions } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { db } from "../../firebase.config";
-import { doc, getDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import useGetData from "../../custom/useGetData";
 
 const ProductDetails = () => {
@@ -27,7 +27,6 @@ const ProductDetails = () => {
 
   const { data: products } = useGetData("products");
 
-  // const product = products.find((item) => item.id === id);
   const docRef = doc(db, "products", id);
 
   useEffect(() => {
@@ -40,15 +39,17 @@ const ProductDetails = () => {
         console.log("no product !");
       }
     };
+
+    window.scrollTo(0, 0);
     getProduct();
-  }, []);
+  }, [id]);
 
   const {
     imgUrl,
     productName,
     price,
     // avgRating,
-    // reviews,
+    review,
     description,
     shortDesc,
     category,
@@ -63,13 +64,23 @@ const ProductDetails = () => {
     const reviewUserMsg = reviewMessage.current.value;
 
     const reviewObj = {
-      userName: reviewUserName,
+      user: reviewUserName,
       text: reviewUserMsg,
       rating,
     };
 
-    console.log(reviewObj);
+    const addReview = async () => {
+      const review = await setDoc(
+        doc(db, "products", id),
 
+        { reviews: arrayUnion(reviewObj) },
+        { merge: true }
+      );
+
+      console.log(review);
+    };
+
+    addReview();
     toast.success("Review submitted");
   };
 
@@ -85,10 +96,6 @@ const ProductDetails = () => {
 
     toast.success("Product added successfully");
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [product]);
 
   return (
     <Helmet title={productName}>
@@ -120,7 +127,19 @@ const ProductDetails = () => {
                       <i className="ri-star-half-s-fill"></i>
                     </span>
                   </div>
-                  <p>{/* (<span>{avgRating}</span>rating) */}</p>
+                  <p>
+                    {products.map((user) => {
+                      return user?.reviews
+                        ?.map((item, index) => {
+                          // console.log(user.reviews.length)
+                          return item.rating;
+                        })
+                        .reduce((acc, cur) => {
+                          return (acc + cur) / 2;
+                        });
+                    })}
+                    {/* (<span>{avgRating}</span>rating) */}
+                  </p>
                 </div>
                 <div className="d-flex align-items-center gap-5">
                   <span className="product__price">${price}</span>
@@ -128,13 +147,19 @@ const ProductDetails = () => {
                 </div>
                 <p className="mt-3">{shortDesc}</p>
 
-                <motion.button
-                  whileTap={{ scale: 1.2 }}
-                  className="buy__btn"
-                  onClick={addToCart}
-                >
-                  Add to Cart
-                </motion.button>
+                <div className="d-flex align-items-end justify-content-between">
+                  <motion.button
+                    whileTap={{ scale: 1.2 }}
+                    className="buy__btn"
+                    onClick={addToCart}
+                  >
+                    Add to Cart
+                  </motion.button>
+
+                  <span>
+                    <i className="ri-heart-fill fs-1 mx-3"></i>
+                  </span>
+                </div>
               </div>
             </Col>
           </Row>
@@ -167,15 +192,17 @@ const ProductDetails = () => {
                 <div className="product__review mt-5">
                   <div className="review__wrapper">
                     <ul>
-                      {/* {reviews?.map((item, index) => {
-                        return (
-                          <li key={index} className="mb-4">
-                            <h6 className="fs-4">Jhon Doe</h6>
-                            <span>{item.rating} (rating)</span>
-                            <p>{item.text}</p>
-                          </li>
-                        );
-                      })} */}
+                      {products.map((user) => {
+                        return user?.reviews?.map((item, index) => {
+                          return (
+                            <li key={index}>
+                              <h6 className="fs-4">{item?.user}</h6>
+                              <span>{item?.rating} (rating)</span>
+                              <p>{item?.text}</p>
+                            </li>
+                          );
+                        });
+                      })}
                     </ul>
                     <div className="review__form">
                       <h4>Leave your experience</h4>

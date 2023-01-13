@@ -41,6 +41,10 @@ const Header = () => {
     navigate("/cart");
   };
 
+  const navigateToFavorites = () => {
+    navigate("/favorites")
+  }
+
   const toggleProfileActions = () => {
     profileActionsRef.current.classList.toggle("show__profileActions");
   };
@@ -49,7 +53,7 @@ const Header = () => {
     signOut(auth)
       .then(() => {
         toast.success("Logged out");
-        navigate("/home")
+        navigate("/home");
       })
       .catch((error) => {
         console.log(error);
@@ -90,7 +94,7 @@ const Header = () => {
                 </ul>
               </div>
               <div className="nav__icons">
-                <span className="fav__icon">
+                <span className="fav__icon" onClick={navigateToFavorites}>
                   <i className="ri-heart-line"></i>
                   <span className="badge">1</span>
                 </span>
@@ -113,13 +117,15 @@ const Header = () => {
                     ref={profileActionsRef}
                     onClick={toggleProfileActions}
                   >
+                    {currentUser?.displayName === "Admin" && (
+                      <Link to="/dashboard">Dashboard</Link>
+                    )}
                     {currentUser ? (
                       <span onClick={logout}>Logout</span>
                     ) : (
                       <div className="d-flex align-items-center justify-content-center flex-column">
                         <Link to="/signup">Signup</Link>{" "}
                         <Link to="/login">Login</Link>
-                        <Link to="/dashboard">Dashboard</Link>
                       </div>
                     )}
                   </div>
