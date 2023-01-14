@@ -1,9 +1,7 @@
-import React from "react";
 import { Col, Container, Row } from "reactstrap";
 import Helmet from "../Helmet/Helmet";
 import CommonSection from "../Ui/CommonSection";
 import { useParams } from "react-router-dom";
-import "../../styles/ProductDetails.css";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import ProductList from "../Ui/ProductsList";
@@ -13,21 +11,28 @@ import { cartActions } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { db } from "../../firebase.config";
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, setDoc } from "firebase/firestore";
 import useGetData from "../../custom/useGetData";
+import { favoritesActions } from "../../redux/slices/favoritesSlice";
+import "../../styles/ProductDetails.css";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState({});
-  const { id } = useParams();
   const [tab, setTab] = useState("desc");
   const [rating, setRating] = useState(null);
+  const [isFavotite, setIsFavotire] = useState();
+  const { id } = useParams();
   const reviewUser = useRef("");
   const reviewMessage = useRef("");
   const dispatch = useDispatch();
 
   const { data: products } = useGetData("products");
-
   const docRef = doc(db, "products", id);
+
+  const { imgUrl, title, price, reviews, description, shortDesc, category } =
+    product;
+
+  const relatedProducts = products.filter((item) => item.category === category);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -42,24 +47,10 @@ const ProductDetails = () => {
 
     window.scrollTo(0, 0);
     getProduct();
-  }, [id]);
-
-  const {
-    imgUrl,
-    productName,
-    price,
-    // avgRating,
-    review,
-    description,
-    shortDesc,
-    category,
-  } = product;
-
-  const relatedProducts = products.filter((item) => item.category === category);
+  }, [id, products]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const reviewUserName = reviewUser.current.value;
     const reviewUserMsg = reviewMessage.current.value;
 
@@ -70,14 +61,12 @@ const ProductDetails = () => {
     };
 
     const addReview = async () => {
-      const review = await setDoc(
+      await setDoc(
         doc(db, "products", id),
 
         { reviews: arrayUnion(reviewObj) },
         { merge: true }
       );
-
-      console.log(review);
     };
 
     addReview();
@@ -88,27 +77,55 @@ const ProductDetails = () => {
     dispatch(
       cartActions.addItem({
         id,
-        image: imgUrl,
-        productName,
+        imgUrl,
+        productName: title,
         price,
       })
     );
-
     toast.success("Product added successfully");
   };
 
+  const addFavorites = () => {
+    dispatch(
+      favoritesActions.addItem({
+        id,
+        imgUrl,
+        productName: title,
+        price,
+      })
+    );
+    setIsFavotire(true);
+    toast.success("Added to favorites !");
+  };
+
+  const deleteFavorites = () => {
+    dispatch(favoritesActions.deleteItem(id));
+    setIsFavotire(false);
+    toast.error("Removed to favorites !");
+  };
+
+  const avgRating = (
+    reviews
+      ?.map((user) => {
+        return +user.rating;
+      })
+      .reduce((acc, cur) => {
+        return acc + cur;
+      }) / reviews?.length
+  ).toFixed(1);
+
   return (
-    <Helmet title={productName}>
-      <CommonSection title={productName} />
+    <Helmet title={title}>
+      <CommonSection title={title} />
       <section className="pt-0">
         <Container>
           <Row>
             <Col lg="6">
-              <img src={imgUrl} alt={productName} />
+              <img src={imgUrl} alt={title} />
             </Col>
             <Col lg="6">
               <div className="product__details">
-                <h2>{productName}</h2>
+                <h2>{title}</h2>
                 <div className="product__rating d-flex align-items-center gap-5 mb-4">
                   <div>
                     <span>
@@ -128,17 +145,7 @@ const ProductDetails = () => {
                     </span>
                   </div>
                   <p>
-                    {products.map((user) => {
-                      return user?.reviews
-                        ?.map((item, index) => {
-                          // console.log(user.reviews.length)
-                          return item.rating;
-                        })
-                        .reduce((acc, cur) => {
-                          return (acc + cur) / 2;
-                        });
-                    })}
-                    {/* (<span>{avgRating}</span>rating) */}
+                    (<span>{avgRating}</span>)
                   </p>
                 </div>
                 <div className="d-flex align-items-center gap-5">
@@ -157,7 +164,18 @@ const ProductDetails = () => {
                   </motion.button>
 
                   <span>
-                    <i className="ri-heart-fill fs-1 mx-3"></i>
+                    {isFavotite ? (
+                      <i
+                        style={{ color: "red" }}
+                        onClick={deleteFavorites}
+                        className="ri-heart-fill fs-1 mx-3"
+                      ></i>
+                    ) : (
+                      <i
+                        onClick={addFavorites}
+                        className="ri-heart-fill fs-1 mx-3"
+                      ></i>
+                    )}
                   </span>
                 </div>
               </div>
@@ -165,7 +183,6 @@ const ProductDetails = () => {
           </Row>
         </Container>
       </section>
-
       <section>
         <Container>
           <Row>
@@ -192,16 +209,14 @@ const ProductDetails = () => {
                 <div className="product__review mt-5">
                   <div className="review__wrapper">
                     <ul>
-                      {products.map((user) => {
-                        return user?.reviews?.map((item, index) => {
-                          return (
-                            <li key={index}>
-                              <h6 className="fs-4">{item?.user}</h6>
-                              <span>{item?.rating} (rating)</span>
-                              <p>{item?.text}</p>
-                            </li>
-                          );
-                        });
+                      {reviews?.map((item, index) => {
+                        return (
+                          <li key={index}>
+                            <h6 className="fs-4">{item?.user}</h6>
+                            <span>{item?.rating} (rating)</span>
+                            <p>{item?.text}</p>
+                          </li>
+                        );
                       })}
                     </ul>
                     <div className="review__form">
@@ -272,7 +287,6 @@ const ProductDetails = () => {
             <Col lg="12" className="mt-5">
               <h2 className="related__title">You might also like</h2>
             </Col>
-
             <ProductList data={relatedProducts} />
           </Row>
         </Container>

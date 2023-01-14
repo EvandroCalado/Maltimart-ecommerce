@@ -1,7 +1,7 @@
 import { Col, Container, Row } from "reactstrap";
-import "./Services.css";
 import serviceData from "../assets/data/serviceData";
 import { motion } from "framer-motion";
+import "./Services.css";
 
 const Services = () => {
   return (

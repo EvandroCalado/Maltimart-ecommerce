@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
 import Helmet from "../Helmet/Helmet";
-import "../../styles/Login.css";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { setDoc, doc } from "firebase/firestore";
@@ -12,6 +11,7 @@ import { storage } from "../../firebase.config";
 import { db } from "../../firebase.config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import "../../styles/Login.css";
 
 const Signup = () => {
   const [username, setUsername] = useState("");

@@ -1,5 +1,5 @@
-import { Col, Container, Row } from "reactstrap";
 import useGetData from "../custom/useGetData"
+import { Col, Container, Row } from "reactstrap";
 import "../styles/Dashboard.css";
 
 const Dashboard = () => {

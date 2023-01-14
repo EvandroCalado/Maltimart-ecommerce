@@ -1,6 +1,6 @@
 import { Col, Container, ListGroup, ListGroupItem, Row } from "reactstrap";
-import "./Footer.css";
 import { Link } from "react-router-dom";
+import "./Footer.css";
 
 const Footer = () => {
   const year = new Date().getFullYear();

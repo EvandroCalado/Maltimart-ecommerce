@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
 import { toast } from "react-toastify";
 import { db, storage } from "../firebase.config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
 
 const AddProducts = () => {
   const [enterTitle, setEnterTitle] = useState("");

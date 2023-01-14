@@ -1,9 +1,9 @@
-import { Col, Container, Row } from "reactstrap";
 import useGetData from "../custom/useGetData";
 import Spinning from "../components/Ui/Spinning";
+import { Col, Container, Row } from "reactstrap";
+import { toast } from "react-toastify";
 import { db } from "../firebase.config";
 import { doc, deleteDoc } from "firebase/firestore";
-import { toast } from "react-toastify";
 
 const AllProducts = () => {
   const { data: productsData, loading } = useGetData("products");

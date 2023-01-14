@@ -1,12 +1,11 @@
-import React from "react";
-import "../../styles/Cart.css";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Helmet from "../Helmet/Helmet";
 import CommonSection from "../Ui/CommonSection";
 import { Col, Container, Row } from "reactstrap";
 import { motion } from "framer-motion";
 import { cartActions } from "../../redux/slices/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import "../../styles/Cart.css";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -75,7 +74,7 @@ const Tr = ({ item }) => {
   return (
     <tr>
       <td>
-        <img src={item.imgUrl} alt={item.name} />
+        <img src={item.imgUrl} alt={item.title} />
       </td>
       <td>{item.productName}</td>
       <td>${item.totalPrice}</td>

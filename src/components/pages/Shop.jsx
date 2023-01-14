@@ -2,12 +2,12 @@ import React from "react";
 import { Col, Container, Row } from "reactstrap";
 import Helmet from "../Helmet/Helmet";
 import CommonSection from "../Ui/CommonSection";
-import "../../styles/Shop.css";
 import { useState } from "react";
 import ProductsList from "../Ui/ProductsList";
 import useGetData from "../../custom/useGetData";
 import Spinning from "../Ui/Spinning";
 import { useEffect } from "react";
+import "../../styles/Shop.css";
 
 const Shop = () => {
   const { data: productsData } = useGetData("products");

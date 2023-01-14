@@ -1,6 +1,6 @@
-import { Col, Container, Row } from "reactstrap";
-import Spinning from "../components/Ui/Spinning";
 import useGetData from "../custom/useGetData";
+import Spinning from "../components/Ui/Spinning";
+import { Col, Container, Row } from "reactstrap";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { toast } from "react-toastify";

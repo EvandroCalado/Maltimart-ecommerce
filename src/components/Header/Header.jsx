@@ -1,16 +1,15 @@
-import "./Header.css";
-import { Container, Row } from "reactstrap";
-
-import logo from "../../assets/images/eco-logo.png";
-import userIcon from "../../assets/images/user-icon.png";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Container, Row } from "reactstrap";
+import logo from "../../assets/images/eco-logo.png";
+import userIcon from "../../assets/images/user-icon.png";
+import { motion } from "framer-motion";
 import useAuth from "../../custom/useAuth";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase.config";
 import { toast } from "react-toastify";
+import "./Header.css";
 
 const nav__links = [
   {
@@ -34,6 +33,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const favoritesItems = useSelector((state) => state.favorites.favoritesItems);
 
   const menuToggle = () => menuRef?.current?.classList?.toggle("active__menu");
 
@@ -42,8 +42,10 @@ const Header = () => {
   };
 
   const navigateToFavorites = () => {
-    navigate("/favorites")
-  }
+    const userId = currentUser?.reloadUserInfo?.localId;
+
+    navigate(`/favorites/${userId}`);
+  };
 
   const toggleProfileActions = () => {
     profileActionsRef.current.classList.toggle("show__profileActions");
@@ -96,7 +98,7 @@ const Header = () => {
               <div className="nav__icons">
                 <span className="fav__icon" onClick={navigateToFavorites}>
                   <i className="ri-heart-line"></i>
-                  <span className="badge">1</span>
+                  <span className="badge">{favoritesItems.length}</span>
                 </span>
                 <span className="cart__icon" onClick={navigateToCart}>
                   <i className="ri-shopping-bag-line"></i>
@@ -104,7 +106,6 @@ const Header = () => {
                 </span>
                 <div className="profile">
                   <motion.img
-                    // style={{ borderRadius: "50%", width: "4rem" }}
                     whileTap={{ scale: 1.2 }}
                     src={currentUser ? currentUser.photoURL : userIcon}
                     alt="User Icon"
